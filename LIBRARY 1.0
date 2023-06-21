@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_BOOKS 100
+
+typedef struct {
+    int bookId;
+    char title[50];
+    char author[50];
+    int quantity;
+} Book;
+
+Book books[MAX_BOOKS];
+int numBooks = 0;
+
+void addBook() {
+    if (numBooks == MAX_BOOKS) {
+        printf("The library is full. Cannot add more books.\n");
+        return;
+    }
+
+    Book newBook;
+    printf("Enter Book ID: ");
+    scanf("%d", &newBook.bookId);
+    printf("Enter Title: ");
+    scanf(" %[^\n]s", newBook.title);
+    printf("Enter Author: ");
+    scanf(" %[^\n]s", newBook.author);
+    printf("Enter Quantity: ");
+    scanf("%d", &newBook.quantity);
+
+    books[numBooks] = newBook;
+    numBooks++;
+
+    printf("Book added successfully.\n");
+}
+
+void displayBooks() {
+    if (numBooks == 0) {
+        printf("No books available in the library.\n");
+        return;
+    }
+
+    printf("Books in the library:\n");
+    printf("-------------------------------\n");
+    printf("ID\tTitle\tAuthor\tQuantity\n");
+    printf("-------------------------------\n");
+
+    for (int i = 0; i < numBooks; i++) {
+        printf("%d\t%s\t%s\t%d\n", books[i].bookId, books[i].title, books[i].author, books[i].quantity);
+    }
+
+    printf("-------------------------------\n");
+}
+
+void searchBook() {
+    if (numBooks == 0) {
+        printf("No books available in the library.\n");
+        return;
+    }
+
+    int bookId;
+    printf("Enter Book ID: ");
+    scanf("%d", &bookId);
+
+    for (int i = 0; i < numBooks; i++) {
+        if (books[i].bookId == bookId) {
+            printf("Book found:\n");
+            printf("ID: %d\n", books[i].bookId);
+            printf("Title: %s\n", books[i].title);
+            printf("Author: %s\n", books[i].author);
+            printf("Quantity: %d\n", books[i].quantity);
+            return;
+        }
+    }
+
+    printf("Book not found.\n");
+}
+
+void menu() {
+    printf("\n--- Library Management System ---\n");
+    printf("1. Add Book\n");
+    printf("2. Display Books\n");
+    printf("3. Search Book\n");
+    printf("4. Exit\n");
+    printf("---------------------------------\n");
+}
+
+int main() {
+    int choice;
+    do {
+        menu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addBook();
+                break;
+            case 2:
+                displayBooks();
+                break;
+            case 3:
+                searchBook();
+                break;
+            case 4:
+                printf("Exiting the program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+                break;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
